@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 const availableInputTypes = [
   'button',
@@ -22,55 +22,38 @@ const availableInputTypes = [
   'text',
   'time',
   'url',
-  'week'
-] as const
-export type InputType = typeof availableInputTypes[number]
+  'week',
+] as const;
+type InputType = typeof availableInputTypes[number];
 
-const availableFormControls = ['input', 'select', 'textarea'] as const
-export type FormControlType = typeof availableFormControls[number]
+const availableFormControls = ['input', 'select', 'textarea'] as const;
+type FormControlType = typeof availableFormControls[number];
 
 // example { type:"text"; name: "firstName" }
 export interface InputControl<T> {
-  type: InputType
-  name: keyof T
-  component?: FormControlType
+  type: InputType;
+  name: keyof T;
+  component?: FormControlType;
 }
 
-export type GetElementInputsReturn<T> = Record<
+type GetElementInputsReturn<T> = Record<
   keyof T,
-  (
-    props: React.DetailedHTMLProps<
-      React.InputHTMLAttributes<HTMLInputElement>,
-      HTMLInputElement
-    >
-  ) => JSX.Element
->
+  (props: React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>) => JSX.Element
+>;
 
 export function getElementInputs<T extends Record<keyof T, unknown>>(
   inputControls: InputControl<T>[],
   customControlOptions: Partial<Record<InputType, () => JSX.Element>>
 ): GetElementInputsReturn<T> {
-  const inputsArr: GetElementInputsReturn<T> = inputControls.reduce(
-    (inputsAcc, inputControl) => {
-      // const formControl: FormControlType = inputControl.component ?? 'input';
-      return {
-        ...inputsAcc,
-        [inputControl.name]: (
-          props: React.DetailedHTMLProps<
-            React.InputHTMLAttributes<HTMLInputElement>,
-            HTMLInputElement
-          >
-        ) =>
-          customControlOptions.text && (
-            <customControlOptions.text
-              name={String(inputControl.name)}
-              {...props}
-            />
-          )
-      }
-    },
-    {} as GetElementInputsReturn<T>
-  )
+  const inputsArr: GetElementInputsReturn<T> = inputControls.reduce((inputsAcc, inputControl) => {
+    // const formControl: FormControlType = inputControl.component ?? 'input';
+    return {
+      ...inputsAcc,
+      [inputControl.name]: (
+        props: React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
+      ) => customControlOptions.text && <customControlOptions.text name={String(inputControl.name)} {...props} />,
+    };
+  }, {} as GetElementInputsReturn<T>);
 
-  return inputsArr
+  return inputsArr;
 }

@@ -24,10 +24,10 @@ const availableInputTypes = [
   'url',
   'week'
 ] as const
-type InputType = typeof availableInputTypes[number]
+export type InputType = typeof availableInputTypes[number]
 
 const availableFormControls = ['input', 'select', 'textarea'] as const
-type FormControlType = typeof availableFormControls[number]
+export type FormControlType = typeof availableFormControls[number]
 
 // example { type:"text"; name: "firstName" }
 export interface InputControl<T> {
@@ -36,7 +36,7 @@ export interface InputControl<T> {
   component?: FormControlType
 }
 
-type GetElementInputsReturn<T> = Record<
+export type GetElementInputsReturn<T> = Record<
   keyof T,
   (
     props: React.DetailedHTMLProps<

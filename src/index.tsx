@@ -43,7 +43,7 @@ type GetElementInputsReturn<T> = Record<
 
 export function getElementInputs<T extends Record<keyof T, unknown>>(
   inputControls: InputControl<T>[],
-  customControlOptions: Partial<Record<InputType, () => JSX.Element>>
+  customControlOptions: Partial<Record<InputType, React.ReactElement>>
 ): GetElementInputsReturn<T> {
   const inputsArr: GetElementInputsReturn<T> = inputControls.reduce((inputsAcc, inputControl) => {
     // const formControl: FormControlType = inputControl.component ?? 'input';
@@ -51,7 +51,12 @@ export function getElementInputs<T extends Record<keyof T, unknown>>(
       ...inputsAcc,
       [inputControl.name]: (
         props: React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
-      ) => customControlOptions.text && <customControlOptions.text name={String(inputControl.name)} {...props} />,
+      ) => {
+        return (
+          customControlOptions.text &&
+          React.cloneElement(customControlOptions.text, { ...props, name: inputControl.name })
+        );
+      },
     };
   }, {} as GetElementInputsReturn<T>);
 

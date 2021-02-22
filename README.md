@@ -13,16 +13,36 @@ npm install --save react-formgen
 ## Usage
 
 ```tsx
-import React, { Component } from 'react';
+import React from 'react';
+import { getElementInputs } from 'react-formgen';
 
-import MyComponent from 'react-formgen';
-import 'react-formgen/dist/index.css';
-
-class Example extends Component {
-  render() {
-    return <MyComponent />;
-  }
+interface Person {
+  firstName: string;
+  lastName: string;
+  age: number;
 }
+
+const App = () => {
+  const formControls = getElementInputs<Person>(
+    [
+      {
+        type: 'text',
+        name: 'firstName',
+      },
+      { type: 'text', name: 'lastName' },
+    ],
+    { text: <input /> }
+  );
+
+  return (
+    <>
+      <formControls.firstName className="test" />
+      <formControls.lastName />
+    </>
+  );
+};
+
+export default App;
 ```
 
 ## License

@@ -1,5 +1,7 @@
 import React from 'react';
-import { getElementInputs } from 'react-formgen';
+import { getElementInputs, initForm } from 'react-formgen';
+
+initForm({ text: <input className="text" />, number: <input className="number" /> });
 
 interface Person {
   firstName: string;
@@ -8,21 +10,20 @@ interface Person {
 }
 
 const App = () => {
-  const formControls = getElementInputs<Person>(
-    [
-      {
-        type: 'text',
-        name: 'firstName',
-      },
-      { type: 'text', name: 'lastName' },
-    ],
-    { text: <input /> }
-  );
+  const formControls = getElementInputs<Person>([
+    {
+      type: 'text',
+      name: 'firstName',
+    },
+    { type: 'number', name: 'age' },
+  ]);
+
+  if (!formControls) return null;
 
   return (
     <>
-      <formControls.firstName className="test" />
-      <formControls.lastName />
+      <formControls.firstName />
+      <formControls.age />
     </>
   );
 };

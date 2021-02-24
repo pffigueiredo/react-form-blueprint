@@ -1,3 +1,4 @@
+import { customFormControlsBuilder, initFormOptions } from 'formControlOptions';
 import React from 'react';
 
 const availableInputTypes = [
@@ -24,7 +25,7 @@ const availableInputTypes = [
   'url',
   'week',
 ] as const;
-type InputType = typeof availableInputTypes[number];
+export type InputType = typeof availableInputTypes[number];
 
 const availableFormControls = ['input', 'select', 'textarea'] as const;
 type FormControlType = typeof availableFormControls[number];
@@ -42,23 +43,18 @@ type GetElementInputsReturn<T> = Record<
 >;
 
 export function getElementInputs<T extends Record<keyof T, unknown>>(
-  inputControls: InputControl<T>[],
-  customControlOptions: Partial<Record<InputType, React.ReactElement>>
+  inputControls: InputControl<T>[]
 ): GetElementInputsReturn<T> {
   const inputsArr: GetElementInputsReturn<T> = inputControls.reduce((inputsAcc, inputControl) => {
     // const formControl: FormControlType = inputControl.component ?? 'input';
     return {
       ...inputsAcc,
-      [inputControl.name]: (
-        props: React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
-      ) => {
-        return (
-          customControlOptions.text &&
-          React.cloneElement(customControlOptions.text, { ...props, name: inputControl.name })
-        );
-      },
+      [inputControl.name]: customFormControlsBuilder(inputControl),
     };
   }, {} as GetElementInputsReturn<T>);
 
   return inputsArr;
 }
+
+export const initForm = (customControls: Partial<Record<InputType, React.ReactElement>>): void =>
+  initFormOptions(customControls);

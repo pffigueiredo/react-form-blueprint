@@ -1,5 +1,5 @@
 import React from 'react';
-import { getElementInputs, initForm } from 'react-formgen';
+import { getElementInputs, initFormOptions } from 'react-formgen';
 
 interface Person {
   firstName: string;
@@ -7,7 +7,7 @@ interface Person {
   age: number;
 }
 
-initForm({ text: <input className="text" />, number: <input className="number" /> });
+initFormOptions({ text: <input className="text" />, number: <input className="number" /> });
 const formControls = getElementInputs<Person>([
   {
     type: 'text',
@@ -27,7 +27,7 @@ const App = () => {
     <>
       <formControls.firstName />
       <formControls.lastName />
-      <formControls.age ref={'cenas'} />
+      <formControls.age />
     </>
   );
 };

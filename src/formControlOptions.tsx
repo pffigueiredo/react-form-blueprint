@@ -1,5 +1,5 @@
-import { InputControl, InputType } from 'index';
 import React, { ReactElement } from 'react';
+import { InputControl, InputType } from './getElementInputs';
 
 interface ControlOptionsModel {
   customFormControls: Partial<Record<InputType, React.ReactElement>>;

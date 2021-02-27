@@ -1,5 +1,5 @@
 import React from 'react';
-import { customFormControlsBuilder, initFormOptions } from './formControlOptions';
+import { customFormControlsBuilder } from './formControlOptions';
 
 const availableInputTypes = [
   'button',
@@ -55,6 +55,3 @@ export function getElementInputs<T extends Record<keyof T, unknown>>(
 
   return inputsArr;
 }
-
-export const initForm = (customControls: Partial<Record<InputType, React.ReactElement>>): void =>
-  initFormOptions(customControls);

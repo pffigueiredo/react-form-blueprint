@@ -7,7 +7,14 @@ interface Person {
   age: number;
 }
 
-initFormOptions({ text: <input className="text" />, number: <input className="number" /> });
+initFormOptions({
+  customFormControls: {
+    // text: { input: <input className="text" />, label: <label className="textLabel" /> },
+    number: { input: <input className="number" /> },
+  },
+  label: <label className="label" />,
+  input: <input className="input" />,
+});
 const formControls = getElementInputs<Person>([
   {
     type: 'text',

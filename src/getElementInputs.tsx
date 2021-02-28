@@ -39,7 +39,7 @@ export interface InputControl<T> {
 }
 
 type GetElementInputsReturn<T> = Record<
-  keyof T,
+  RecursiveKeyOf<T>,
   (props: React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>) => JSX.Element
 >;
 

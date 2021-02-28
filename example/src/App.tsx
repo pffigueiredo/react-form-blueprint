@@ -29,12 +29,11 @@ const formControls = getElementInputs<Person>([
     type: 'text',
     name: 'lastName',
   },
+  { type: 'number', name: 'age' },
   {
     type: 'text',
-    name: 'dog.name.age',
+    name: 'dog.name',
   },
-  { type: 'number', name: 'age' },
-  { type: 'text', name: 'dog' },
 ]);
 
 const App = () => {
@@ -45,6 +44,7 @@ const App = () => {
       <formControls.firstName />
       <formControls.lastName />
       <formControls.age />
+      <formControls.dog.name.age />
     </>
   );
 };

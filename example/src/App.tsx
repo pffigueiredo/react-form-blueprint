@@ -5,6 +5,11 @@ interface Person {
   firstName: string;
   lastName: string;
   age: number;
+  dog: {
+    name: {
+      age: string;
+    };
+  };
 }
 
 initFormOptions({
@@ -24,7 +29,12 @@ const formControls = getElementInputs<Person>([
     type: 'text',
     name: 'lastName',
   },
+  {
+    type: 'text',
+    name: 'dog.name.age',
+  },
   { type: 'number', name: 'age' },
+  { type: 'text', name: 'dog' },
 ]);
 
 const App = () => {

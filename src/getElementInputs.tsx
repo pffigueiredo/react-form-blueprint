@@ -1,4 +1,5 @@
 import React from 'react';
+import { RecursiveKeyOf } from './tsUtils';
 import { customFormControlsBuilder } from './formControlOptions';
 
 const availableInputTypes = [
@@ -33,7 +34,7 @@ type FormControlType = typeof availableFormControls[number];
 // example { type:"text"; name: "firstName" }
 export interface InputControl<T> {
   type: InputType;
-  name: keyof T;
+  name: RecursiveKeyOf<T>;
   component?: FormControlType;
 }
 

@@ -3,13 +3,14 @@ import { Nullable } from './tsUtils';
 import { InputControl, InputType } from './getElementInputs';
 
 type CustomFormControls = Partial<Record<InputType, { input?: React.ReactElement; label?: React.ReactElement }>>;
+
 interface ControlOptions {
   customFormControls?: CustomFormControls;
   label?: React.ReactElement;
   input?: React.ReactElement;
 }
 
-export const controlOptionsInstance: ControlOptions = {
+const controlOptionsInstance: ControlOptions = {
   customFormControls: {},
 };
 

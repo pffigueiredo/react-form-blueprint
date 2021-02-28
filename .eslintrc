@@ -55,7 +55,6 @@
     "@typescript-eslint/explicit-function-return-type": 0,
     "import/order": "error",
     "import/no-unresolved": "error",
-    "no-magic-numbers": ["error", { "ignore": [-1, 0, 1], "ignoreArrayIndexes": true }],
     "no-console": ["error"],
     "react/prop-types": "off",
     "prefer-destructuring": "error",

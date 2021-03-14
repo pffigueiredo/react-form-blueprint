@@ -64,5 +64,8 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "dependencies": {
+    "camelcase": "^6.2.0"
+  }
 }

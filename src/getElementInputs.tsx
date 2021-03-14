@@ -1,5 +1,6 @@
 import React from 'react';
-import { RecursiveKeyOf } from './tsUtils';
+import camelCase from 'camelcase';
+import { AsString, DotNotationToCamelCase, RecursiveKeyOf } from './tsUtils';
 import { customFormControlsBuilder } from './formControlOptions';
 
 const availableInputTypes = [
@@ -38,21 +39,22 @@ export interface InputControl<T> {
   component?: FormControlType;
 }
 
-type GetElementInputsReturn<T> = Record<
-  RecursiveKeyOf<T>,
+type GetElementInputsReturn<KeysToReturn extends string> = Record<
+  DotNotationToCamelCase<KeysToReturn>,
   (props: React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>) => JSX.Element
 >;
 
-export function getElementInputs<T extends Record<keyof T, unknown>>(
-  inputControls: InputControl<T>[]
-): GetElementInputsReturn<T> {
-  const inputsArr: GetElementInputsReturn<T> = inputControls.reduce((inputsAcc, inputControl) => {
+export function getElementInputs<
+  T extends Record<keyof T, unknown>,
+  Keys extends AsString<RecursiveKeyOf<T>> = AsString<RecursiveKeyOf<T>>
+>(inputControls: InputControl<T>[]): GetElementInputsReturn<Keys> {
+  const inputsArr = inputControls.reduce((inputsAcc, inputControl) => {
     // const formControl: FormControlType = inputControl.component ?? 'input';
     return {
       ...inputsAcc,
-      [inputControl.name]: customFormControlsBuilder(inputControl),
+      [camelCase(inputControl.name)]: customFormControlsBuilder(inputControl),
     };
-  }, {} as GetElementInputsReturn<T>);
+  }, {} as GetElementInputsReturn<Keys>);
 
-  return inputsArr;
+  return inputsArr as GetElementInputsReturn<Keys>;
 }

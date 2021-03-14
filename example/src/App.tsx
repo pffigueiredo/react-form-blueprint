@@ -20,7 +20,7 @@ initFormOptions({
   label: <label className="label" />,
   input: <input className="input" />,
 });
-const formControls = getElementInputs<Person>([
+const formControls = getElementInputs<Person, 'firstName' | 'lastName' | 'age' | 'dog.name'>([
   {
     type: 'text',
     name: 'firstName',
@@ -42,9 +42,9 @@ const App = () => {
   return (
     <>
       <formControls.firstName />
-      <formControls.lastName />
+      <formControls.dogName />
       <formControls.age />
-      <formControls.dog.name.age />
+      <formControls.lastName />
     </>
   );
 };

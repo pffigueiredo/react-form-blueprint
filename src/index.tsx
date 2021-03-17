@@ -1,3 +1,3 @@
 export * from './formControlOptions';
-export * from './getElementInputs';
+export * from './getFormControls';
 export * from './tsUtils';

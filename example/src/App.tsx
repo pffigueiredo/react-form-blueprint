@@ -1,5 +1,5 @@
 import React from 'react';
-import { getElementInputs, initFormOptions } from 'react-formgen';
+import { getFormControls, initFormOptions } from 'react-formgen';
 
 interface Person {
   firstName: string;
@@ -15,12 +15,12 @@ interface Person {
 initFormOptions({
   customFormControls: {
     // text: { input: <input className="text" />, label: <label className="textLabel" /> },
-    number: { input: <input className="number" /> },
+    number: { input: <input className="number" />, label: <label className="textLabel" /> },
   },
   label: <label className="label" />,
   input: <input className="input" />,
 });
-const formControls = getElementInputs<Person, 'firstName' | 'lastName' | 'age' | 'dog.name'>([
+const formControls = getFormControls<Person, 'firstName' | 'lastName' | 'age' | 'dog.name'>([
   {
     type: 'text',
     name: 'firstName',
@@ -39,12 +39,18 @@ const formControls = getElementInputs<Person, 'firstName' | 'lastName' | 'age' |
 const App = () => {
   if (!formControls) return null;
 
+  const {firstName, age} = formControls;
+
   return (
     <>
-      <formControls.firstName />
-      <formControls.dogName />
-      <formControls.age />
-      <formControls.lastName />
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <age.label>Age</age.label>
+        <age.input />
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <firstName.label>Firstname</firstName.label>
+        <firstName.input />
+      </div>
     </>
   );
 };

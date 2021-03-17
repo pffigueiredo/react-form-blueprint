@@ -14,30 +14,55 @@ npm install --save react-formgen
 
 ```tsx
 import React from 'react';
-import { getElementInputs } from 'react-formgen';
+import { getFormControls, initFormOptions } from 'react-formgen';
 
 interface Person {
   firstName: string;
-  lastName: string;
   age: number;
+  dog: {
+    color: string;
+  };
 }
 
+initFormOptions({
+  customFormControls: {
+    number: { input: <input className="number" />, label: <label className="textLabel" /> },
+  },
+  label: <label className="label" />,
+  input: <input className="input" />,
+});
+
+const formControls = getFormControls<Person, 'firstName' | 'age' | 'dog.color'>([
+  {
+    type: 'text',
+    name: 'firstName',
+  },
+  { type: 'number', name: 'age' },
+  {
+    type: 'text',
+    name: 'dog.color',
+  },
+]);
+
 const App = () => {
-  const formControls = getElementInputs<Person>(
-    [
-      {
-        type: 'text',
-        name: 'firstName',
-      },
-      { type: 'text', name: 'lastName' },
-    ],
-    { text: <input /> }
-  );
+  if (!formControls) return null;
+
+  const { firstName, age, dogColor } = formControls;
 
   return (
     <>
-      <formControls.firstName className="test" />
-      <formControls.lastName />
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <firstName.label>Firstname</firstName.label>
+        <firstName.input />
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <age.label>Age</age.label>
+        <age.input />
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <dogColor.label>Dog Color</dogColor.label>
+        <dogColor.input />
+      </div>
     </>
   );
 };

@@ -6,7 +6,7 @@ export type ValueOf<T> = T[keyof T];
 export type ObjectType<T> = Record<keyof T, unknown>;
 
 export type RecursiveKeyOf<TObj extends ObjectType<TObj>> = {
-  [TKey in keyof TObj & (string | number)]: TObj[TKey] extends Record<string, unknown>
+  [TKey in keyof TObj & (string | number)]: TObj[TKey] extends object
     ? `${TKey}` | `${TKey}.${RecursiveKeyOf<TObj[TKey]>}`
     : `${TKey}`;
 }[keyof TObj & (string | number)];

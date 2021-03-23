@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-types */
+// eslint-disable-next-line import/no-unresolved
 import camelCase from 'camelcase';
 import { LabelControl, ReactLabelProps, customLabelsBuilder } from './label';
 import { InputControl, InputType, ReactInputProps, customInputsBuilder } from './input';
@@ -19,7 +21,7 @@ type GetFormControlsReturn<KeysToReturn extends string> = Record<
 >;
 
 export function getFormControls<
-  T extends Record<keyof T, unknown>,
+  T extends object,
   Keys extends AsString<RecursiveKeyOf<T>> = AsString<RecursiveKeyOf<T>>
 >(inputControls: InputControl<T>[]): GetFormControlsReturn<Keys> {
   const inputsArr = inputControls.reduce((inputsAcc, inputControl) => {

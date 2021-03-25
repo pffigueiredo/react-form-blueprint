@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { getFormControls, initFormOptions } from 'react-formgen';
 
 interface Person {
@@ -37,15 +37,16 @@ const formControls = getFormControls<Person, 'firstName' | 'lastName' | 'age' | 
 ]);
 
 const App = () => {
-  if (!formControls) return null;
-
+  const inputRef = useRef(null)
   const {firstName, age} = formControls;
+
+  if (!formControls) return null;
 
   return (
     <>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <age.label>Age</age.label>
-        <age.input />
+        <age.input ref={inputRef} />
       </div>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <firstName.label>Firstname</firstName.label>

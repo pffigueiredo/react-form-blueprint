@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/ban-types */
 // eslint-disable-next-line import/no-unresolved
 import camelCase from 'camelcase';
-import { LabelControl, ReactLabelProps, customLabelsBuilder } from './label';
-import { InputControl, InputType, ReactInputProps, customInputsBuilder } from './input';
+import { customFormControlsBuilder } from './factories/factory';
+import { LabelControl, ReactLabelProps } from './label';
+import { InputControl, InputType, ReactInputProps } from './input';
 import { AsString, DotNotationToCamelCase, RecursiveKeyOf } from './tsUtils';
 
 export interface FormControl<T> {
@@ -25,12 +26,11 @@ export function getFormControls<
   Keys extends AsString<RecursiveKeyOf<T>> = AsString<RecursiveKeyOf<T>>
 >(inputControls: InputControl<T>[]): GetFormControlsReturn<Keys> {
   const inputsArr = inputControls.reduce((inputsAcc, inputControl) => {
-    // const formControl: FormControlType = inputControl.component ?? 'input';
     return {
       ...inputsAcc,
       [camelCase(inputControl.name)]: {
-        input: customInputsBuilder(inputControl),
-        label: customLabelsBuilder(inputControl as LabelControl<T>),
+        input: customFormControlsBuilder({ componentType: 'input', ...inputControl } as FormControl<T>),
+        label: customFormControlsBuilder(inputControl as LabelControl<T>),
       },
     };
   }, {} as GetFormControlsReturn<Keys>);

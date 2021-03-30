@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
-import { getFormControls, initFormOptions } from 'react-formgen';
-
-interface Person {
+import { getFormControls } from './react-formgen.config';
+export interface Person {
   firstName: string;
   lastName: string;
   age: number;
@@ -12,14 +11,6 @@ interface Person {
   };
 }
 
-initFormOptions({
-  customFormControls: {
-    // text: { input: <input className="text" />, label: <label className="textLabel" /> },
-    number: { input: <input className="number" />, label: <label className="textLabel" /> },
-  },
-  label: <label className="label" />,
-  input: <input className="input" />,
-});
 const formControls = getFormControls<Person, 'firstName' | 'lastName' | 'age' | 'dog.name'>([
   {
     type: 'text',
@@ -36,11 +27,10 @@ const formControls = getFormControls<Person, 'firstName' | 'lastName' | 'age' | 
   },
 ]);
 
+
 const App = () => {
   const inputRef = useRef(null)
   const {firstName, age} = formControls;
-
-  if (!formControls) return null;
 
   return (
     <>

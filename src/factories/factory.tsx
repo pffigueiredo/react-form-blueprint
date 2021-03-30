@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react';
 import { forwardRef } from 'react';
 import { ReactInputProps } from '../input';
 import { DEFAULT_INPUT, DEFAULT_LABEL } from '../constants';
-import { getControlOptionsInstance } from '../formControlOptions';
 import { FormControl } from '../getFormControls';
 import { ReactLabelProps } from '../label';
 import { isInput } from '../type-guards/guards';
+import { getControlOptionsInstance } from '../controlOptionsInstance';
 
 const controlOptionsInstance = getControlOptionsInstance();
 
@@ -38,13 +39,11 @@ export function customFormControlsBuilder<T>(formControl: FormControl<T>): Retur
 
   // by input type (text/number...)
   if (customControlByType?.[formControlType]) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return buildUsableControl(customControlByType[formControlType]!, formControl);
   }
 
   // globally defined in options (input/label)
   if (controlOptionsInstance[formControlType]) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return buildUsableControl(controlOptionsInstance[formControlType]!, formControl);
   }
 

@@ -1,22 +1,14 @@
-import React from 'react';
-import { InputType } from './input';
+import { ControlOptions, setControlOptionsInstance } from './controlOptionsInstance';
+import { getFormControls } from './getFormControls';
 
-type CustomFormControls = Partial<Record<InputType, { input?: React.ReactElement; label?: React.ReactElement }>>;
-
-interface ControlOptions {
-  customFormControls?: CustomFormControls;
-  label?: React.ReactElement;
-  input?: React.ReactElement;
-}
-
-const controlOptionsInstance: ControlOptions = {
-  customFormControls: {},
+type InitFormOptionsReturn = {
+  getFormControls: typeof getFormControls;
 };
 
-export const getControlOptionsInstance = (): ControlOptions => controlOptionsInstance;
+export function initFormOptions(controlOptions: ControlOptions): InitFormOptionsReturn {
+  setControlOptionsInstance(controlOptions);
 
-export function initFormOptions(controlOptions: ControlOptions): void {
-  controlOptionsInstance.customFormControls = controlOptions.customFormControls;
-  controlOptionsInstance.label = controlOptions.label;
-  controlOptionsInstance.input = controlOptions.input;
+  return {
+    getFormControls,
+  };
 }

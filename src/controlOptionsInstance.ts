@@ -14,5 +14,7 @@ const controlOptionsInstance: ControlOptions = {
 
 export const getControlOptionsInstance = (): ControlOptions => controlOptionsInstance;
 export const setControlOptionsInstance = (controlOptions: ControlOptions): void => {
-  Object.assign(controlOptionsInstance, controlOptions);
+  controlOptionsInstance.customFormControls = controlOptions.customFormControls;
+  controlOptionsInstance.label = controlOptions.label;
+  controlOptionsInstance.input = controlOptions.input;
 };

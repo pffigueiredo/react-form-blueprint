@@ -1,5 +1,7 @@
-import React, { useRef } from 'react';
-import { getFormControls } from './react-formgen.config';
+import React from 'react';
+import GlobalFileExample from './examples/GlobalFileExample';
+import LocalConfigExample from './examples/LocalConfigExample';
+
 export interface Person {
   firstName: string;
   lastName: string;
@@ -11,36 +13,17 @@ export interface Person {
   };
 }
 
-const formControls = getFormControls<Person, 'firstName' | 'lastName' | 'age' | 'dog.name'>([
-  {
-    type: 'text',
-    name: 'firstName',
-  },
-  {
-    type: 'text',
-    name: 'lastName',
-  },
-  { type: 'number', name: 'age' },
-  {
-    type: 'text',
-    name: 'dog.name',
-  },
-]);
-
-
 const App = () => {
-  const inputRef = useRef(null)
-  const {firstName, age} = formControls;
-
   return (
     <>
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <age.label>Age</age.label>
-        <age.input ref={inputRef} />
+      <div>
+        <h2>Local config</h2>
+        <LocalConfigExample />
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <firstName.label>Firstname</firstName.label>
-        <firstName.input />
+
+      <div>
+        <h2>Global File </h2>
+        <GlobalFileExample />
       </div>
     </>
   );

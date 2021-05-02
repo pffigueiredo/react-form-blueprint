@@ -7,7 +7,7 @@ import { Person } from '../App';
     input: <input  placeholder="local config label" />,
 });
 
-const formControls = getFormControls<Person, 'firstName' | 'age' >([
+const formControls = getFormControls<Person, 'firstName' | 'age'>([
     {
       type: 'text',
       name: 'firstName',

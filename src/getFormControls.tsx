@@ -4,11 +4,11 @@ import camelCase from 'camelcase';
 import { customFormControlsBuilder } from './factories/factory';
 import { LabelControl, ReactLabelProps } from './label';
 import { InputControl, InputType, ReactInputProps } from './input';
-import { AsString, DotNotationToCamelCase, RecursiveKeyOf } from './tsUtils';
+import { DotNotationToCamelCase, RecursiveKeyOf } from './tsUtils';
 
-export interface FormControl<T> {
+export interface FormControl<T, Keys = null> {
   type: InputType;
-  name: RecursiveKeyOf<T>;
+  name: Keys extends null ? RecursiveKeyOf<T> : Keys;
 }
 
 type FormControlsReturnVal = {
@@ -16,15 +16,14 @@ type FormControlsReturnVal = {
   label: (props: ReactLabelProps) => JSX.Element;
 };
 
-type GetFormControlsReturn<KeysToReturn extends string> = Record<
-  DotNotationToCamelCase<KeysToReturn>,
+type GetFormControlsReturn<T, KeysToReturn extends string | null> = Record<
+  DotNotationToCamelCase<KeysToReturn extends string ? KeysToReturn : RecursiveKeyOf<T>>,
   FormControlsReturnVal
 >;
 
-export function getFormControls<
-  T extends object,
-  Keys extends AsString<RecursiveKeyOf<T>> = AsString<RecursiveKeyOf<T>>
->(inputControls: InputControl<T>[]): GetFormControlsReturn<Keys> {
+export function getFormControls<T extends object, Keys extends RecursiveKeyOf<T> | null = null>(
+  inputControls: InputControl<T, Keys>[]
+): GetFormControlsReturn<T, Keys> {
   const inputsArr = inputControls.reduce((inputsAcc, inputControl) => {
     return {
       ...inputsAcc,
@@ -33,7 +32,7 @@ export function getFormControls<
         label: customFormControlsBuilder(inputControl as LabelControl<T>),
       },
     };
-  }, {} as GetFormControlsReturn<Keys>);
+  }, {} as GetFormControlsReturn<T, Keys>);
 
-  return inputsArr as GetFormControlsReturn<Keys>;
+  return inputsArr as GetFormControlsReturn<T, Keys>;
 }

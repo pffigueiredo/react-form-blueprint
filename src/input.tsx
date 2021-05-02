@@ -30,7 +30,7 @@ export type InputType = typeof availableInputTypes[number];
 const availableFormControls = ['input', 'select', 'textarea'] as const;
 type FormControlType = typeof availableFormControls[number];
 
-export interface InputControl<T> extends FormControl<T> {
+export interface InputControl<T, Keys = null> extends FormControl<T, Keys> {
   componentType?: FormControlType;
 }
 

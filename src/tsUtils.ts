@@ -15,5 +15,3 @@ export type RecursiveKeyOf<TObj extends ObjectType<TObj>> = {
 export type DotNotationToCamelCase<S extends string> = S extends `${infer T}.${infer U}`
   ? `${Lowercase<T>}${Capitalize<DotNotationToCamelCase<U>>}`
   : S;
-
-export type AsString<S extends string> = S extends string ? S : S;

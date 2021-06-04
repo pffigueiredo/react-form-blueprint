@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-types */
-// eslint-disable-next-line import/no-unresolved
+/* eslint-disable import/no-unresolved */
 import camelCase from 'camelcase';
 import { customFormControlsBuilder } from './factories/factory';
 import { LabelControl, ReactLabelProps } from './label';

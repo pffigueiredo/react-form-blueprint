@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
 export type Nullable<T> = T | null | undefined;
 
 export type ValueOf<T> = T[keyof T];

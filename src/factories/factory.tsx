@@ -10,7 +10,10 @@ import { getControlOptionsInstance } from '../controlOptionsInstance';
 
 const controlOptionsInstance = getControlOptionsInstance();
 
-function buildUsableControl<T>(component: React.ReactElement, formControl: FormControl<T>) {
+function buildUsableControl<T>(
+  component: React.ReactElement,
+  formControl: FormControl<T>
+) {
   if (isInput<T>(formControl)) {
     return forwardRef<HTMLInputElement, ReactInputProps>((props, forwardRef) =>
       React.cloneElement(component, {
@@ -33,20 +36,32 @@ function buildUsableControl<T>(component: React.ReactElement, formControl: FormC
   );
 }
 
-export function customFormControlsBuilder<T>(formControl: FormControl<T>): ReturnType<typeof buildUsableControl> {
-  const customControlByType = controlOptionsInstance?.customFormControls?.[formControl.type];
+export function customFormControlsBuilder<T>(
+  formControl: FormControl<T>
+): ReturnType<typeof buildUsableControl> {
+  const customControlByType =
+    controlOptionsInstance?.customFormControls?.[formControl.type];
   const formControlType = isInput<T>(formControl) ? 'input' : 'label';
 
   // by input type (text/number...)
   if (customControlByType?.[formControlType]) {
-    return buildUsableControl(customControlByType[formControlType]!, formControl);
+    return buildUsableControl(
+      customControlByType[formControlType]!,
+      formControl
+    );
   }
 
   // globally defined in options (input/label)
   if (controlOptionsInstance[formControlType]) {
-    return buildUsableControl(controlOptionsInstance[formControlType]!, formControl);
+    return buildUsableControl(
+      controlOptionsInstance[formControlType]!,
+      formControl
+    );
   }
 
   // if not defined (default)
-  return buildUsableControl(isInput<T>(formControl) ? DEFAULT_INPUT : DEFAULT_LABEL, formControl);
+  return buildUsableControl(
+    isInput<T>(formControl) ? DEFAULT_INPUT : DEFAULT_LABEL,
+    formControl
+  );
 }

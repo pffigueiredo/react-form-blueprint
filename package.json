@@ -60,6 +60,7 @@
   },
   "dependencies": {
     "camelcase": "^6.2.0",
+    "eslint-config-tsdx": "^0.2.0",
     "rollup-plugin-typescript2": "^0.30.0"
   },
   "resolutions": {

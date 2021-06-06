@@ -5,7 +5,7 @@ import { ReactInputProps } from '../input';
 import { DEFAULT_INPUT, DEFAULT_LABEL } from '../constants';
 import { FormControl } from '../getFormControls';
 import { ReactLabelProps } from '../label';
-import { isInput } from '../type-guards/guards';
+import { extractFormControlValue, isInput } from '../type-guards/guards';
 import { getControlOptionsInstance } from '../controlOptionsInstance';
 
 const controlOptionsInstance = getControlOptionsInstance();
@@ -14,13 +14,15 @@ function buildUsableControl<T>(
   component: React.ReactElement,
   formControl: FormControl<T>
 ) {
-  if (isInput<T>(formControl)) {
+  const formControlVal = extractFormControlValue<T>(formControl);
+
+  if (isInput<T>(formControlVal)) {
     return forwardRef<HTMLInputElement, ReactInputProps>((props, forwardRef) =>
       React.cloneElement(component, {
         ...props,
-        type: formControl.type,
-        name: formControl.name,
-        id: formControl.name,
+        type: formControlVal.type,
+        name: formControlVal.name,
+        id: formControlVal.name,
         ref: forwardRef,
       })
     );
@@ -30,7 +32,7 @@ function buildUsableControl<T>(
   return forwardRef<HTMLLabelElement, ReactLabelProps>((props, forwardRef) =>
     React.cloneElement(component, {
       ...props,
-      htmlFor: formControl.name,
+      htmlFor: formControlVal.name,
       ref: forwardRef,
     })
   );

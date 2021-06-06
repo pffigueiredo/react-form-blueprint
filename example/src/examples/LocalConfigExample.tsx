@@ -1,22 +1,22 @@
-import React from 'react'
+import React from 'react';
 import { initFormOptions } from 'react-formgen';
 import { Person } from '../App';
 
- const { getFormControls } = initFormOptions({
-    label: <label />,
-    input: <input  placeholder="local config label" />,
+const { getFormControls } = initFormOptions({
+  label: <label />,
+  input: <input placeholder="local config label" />,
 });
 
 const formControls = getFormControls<Person, 'firstName' | 'age'>([
-    {
-      type: 'text',
-      name: 'firstName',
-    },
-    { type: 'number', name: 'age' },
-  ]);
+  {
+    type: 'text',
+    name: 'firstName',
+  },
+  { type: 'number', name: 'age' },
+]);
 
 const LocalConfigExample = () => {
-  const {firstName, age} = formControls;
+  const { firstName, age } = formControls;
 
   return (
     <>
@@ -29,7 +29,7 @@ const LocalConfigExample = () => {
         <firstName.input />
       </div>
     </>
-  )
-}
+  );
+};
 
-export default LocalConfigExample
+export default LocalConfigExample;

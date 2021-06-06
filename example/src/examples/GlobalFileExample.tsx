@@ -2,7 +2,10 @@ import React, { useRef } from 'react';
 import { Person } from '../App';
 import { getFormControls } from '../react-formgen.config';
 
-const formControls = getFormControls<Person, 'firstName' | 'lastName' | 'age' | 'dog.name'>([
+const formControls = getFormControls<
+  Person,
+  'firstName' | 'lastName' | 'age' | 'dog.name'
+>([
   {
     type: 'text',
     name: 'firstName',
@@ -18,10 +21,9 @@ const formControls = getFormControls<Person, 'firstName' | 'lastName' | 'age' | 
   },
 ]);
 
-
 const GlobalFileExample = () => {
-  const inputRef = useRef(null)
-  const {firstName, age} = formControls;
+  const inputRef = useRef(null);
+  const { firstName, age } = formControls;
 
   return (
     <>

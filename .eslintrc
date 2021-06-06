@@ -1,65 +1,8 @@
 {
-  "root": true,
-  "plugins": ["import"],
+  "extends": ["tsdx"],
   "settings": {
     "react": {
       "version": "detect"
-    },
-    "import/parsers": {
-      "@typescript-eslint/parser": [".ts", ".tsx"]
-    },
-    "import/resolver": {
-      "node": {
-        "extensions": [".ts", ".tsx"]
-      },
-      "typescript": {
-        "alwaysTryTypes": true,
-        "project": "./tsconfig.json"
-      }
     }
-  },
-  "parser": "@typescript-eslint/parser",
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended",
-    "prettier/@typescript-eslint",
-    "plugin:prettier/recommended"
-  ],
-  "env": {
-    "browser": true,
-    "node": true,
-    "jest": true
-  },
-  "parserOptions": {
-    "ecmaVersion": 2020,
-    "ecmaFeatures": {
-      "legacyDecorators": true,
-      "jsx": true
-    }
-  },
-  "rules": {
-    "prettier/prettier": ["error", {}, { "usePrettierrc": true }],
-    "max-len": ["error", { "code": 120 }],
-    "no-unused-vars": 0,
-    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
-    "@typescript-eslint/no-explicit-any": "error",
-    "@typescript-eslint/explicit-module-boundary-types": "error",
-    "sort-imports": [
-      "error",
-      {
-        "ignoreDeclarationSort": true
-      }
-    ],
-    "@typescript-eslint/explicit-function-return-type": 0,
-    "import/order": "error",
-    "import/no-unresolved": "error",
-    "no-console": ["error"],
-    "react/prop-types": "off",
-    "prefer-destructuring": "error",
-    "no-param-reassign": "error",
-    "prefer-arrow-callback": 2,
-    "react/display-name": "off"
   }
 }

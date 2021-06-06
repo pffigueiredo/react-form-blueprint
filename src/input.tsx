@@ -34,4 +34,7 @@ export interface InputControl<T, Keys = null> extends FormControl<T, Keys> {
   componentType?: FormControlType;
 }
 
-export type ReactInputProps = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
+export type ReactInputProps = React.DetailedHTMLProps<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  HTMLInputElement
+>;

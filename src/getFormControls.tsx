@@ -17,18 +17,24 @@ type FormControlsReturnVal = {
 };
 
 type GetFormControlsReturn<T, KeysToReturn extends string | null> = Record<
-  DotNotationToCamelCase<KeysToReturn extends string ? KeysToReturn : RecursiveKeyOf<T>>,
+  DotNotationToCamelCase<
+    KeysToReturn extends string ? KeysToReturn : RecursiveKeyOf<T>
+  >,
   FormControlsReturnVal
 >;
 
-export function getFormControls<T extends object, Keys extends RecursiveKeyOf<T> | null = null>(
-  inputControls: InputControl<T, Keys>[]
-): GetFormControlsReturn<T, Keys> {
+export function getFormControls<
+  T extends object,
+  Keys extends RecursiveKeyOf<T> | null = null
+>(inputControls: InputControl<T, Keys>[]): GetFormControlsReturn<T, Keys> {
   const inputsArr = inputControls.reduce((inputsAcc, inputControl) => {
     return {
       ...inputsAcc,
       [camelCase(inputControl.name)]: {
-        input: customFormControlsBuilder({ componentType: 'input', ...inputControl } as FormControl<T>),
+        input: customFormControlsBuilder({
+          componentType: 'input',
+          ...inputControl,
+        } as FormControl<T>),
         label: customFormControlsBuilder(inputControl as LabelControl<T>),
       },
     };

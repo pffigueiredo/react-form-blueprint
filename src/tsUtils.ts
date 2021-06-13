@@ -1,3 +1,5 @@
+import { JSXElementConstructor } from "react";
+
 /* eslint-disable prettier/prettier */
 export type Nullable<T> = T | null | undefined;
 
@@ -15,3 +17,16 @@ export type RecursiveKeyOf<TObj extends ObjectType<TObj>> = {
 export type DotNotationToCamelCase<S extends string> = S extends `${infer T}.${infer U}`
   ? `${Lowercase<T>}${Capitalize<DotNotationToCamelCase<U>>}`
   : S;
+
+
+ //********* REACT types 
+export type ReactComponent = keyof JSX.IntrinsicElements | JSXElementConstructor<any>;
+
+// infers the prop types to be used in presetProps
+type InferPropsType<T> = T extends ReactComponent ? React.ComponentProps<T> : never;
+
+export type ComponentWithProps<T extends ReactComponent> = {
+    component: T;
+    presetProps?: InferPropsType<T>;
+};
+

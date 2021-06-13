@@ -1,25 +1,29 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react';
 import { forwardRef } from 'react';
-import { ReactInputProps } from '../input';
 import { DEFAULT_INPUT, DEFAULT_LABEL } from '../constants';
 import { FormControl } from '../getFormControls';
-import { ReactLabelProps } from '../label';
 import { extractFormControlValue, isInput } from '../type-guards/guards';
 import { getControlOptionsInstance } from '../controlOptionsInstance';
+import { ComponentWithProps, ReactComponent } from 'tsUtils';
 
 const controlOptionsInstance = getControlOptionsInstance();
 
-function buildUsableControl<T>(
-  component: React.ReactElement,
+function buildUsableControl<T, C extends ReactComponent>(
+  componentWithProps: ComponentWithProps<C>,
   formControl: FormControl<T>
 ) {
   const formControlVal = extractFormControlValue<T>(formControl);
 
   if (isInput<T>(formControlVal)) {
-    return forwardRef<HTMLInputElement, ReactInputProps>((props, forwardRef) =>
-      React.cloneElement(component, {
+    return forwardRef<
+      ComponentWithProps<C>['component'],
+      ComponentWithProps<C>['presetProps']
+    >((props, forwardRef) =>
+      React.createElement(componentWithProps.component, {
+        ...componentWithProps.presetProps,
         ...props,
+
         type: formControlVal.type,
         name: formControlVal.name,
         id: formControlVal.name,
@@ -29,9 +33,14 @@ function buildUsableControl<T>(
   }
 
   // is a label
-  return forwardRef<HTMLLabelElement, ReactLabelProps>((props, forwardRef) =>
-    React.cloneElement(component, {
+  return forwardRef<
+    ComponentWithProps<C>['component'],
+    ComponentWithProps<C>['presetProps']
+  >((props, forwardRef) =>
+    React.createElement(componentWithProps.component, {
+      ...componentWithProps.presetProps,
       ...props,
+
       htmlFor: formControlVal.name,
       ref: forwardRef,
     })

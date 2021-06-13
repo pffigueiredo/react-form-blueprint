@@ -1,10 +1,13 @@
 import React from 'react';
-import { initFormOptions } from 'react-formgen';
+import { initFormOptions } from '../../../src';
 import { Person } from '../App';
 
 const { getFormControls } = initFormOptions({
-  label: <label />,
-  input: <input placeholder="local config label" />,
+  label: { component: 'label' },
+  input: {
+    component: 'input',
+    presetProps: { placeholder: 'Local configured' },
+  },
 });
 
 const formControls = getFormControls<Person, 'firstName' | 'age'>([

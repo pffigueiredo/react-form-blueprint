@@ -5,7 +5,7 @@ import { DEFAULT_INPUT, DEFAULT_LABEL } from '../constants';
 import { FormControl } from '../getFormControls';
 import { extractFormControlValue, isInput } from '../type-guards/guards';
 import { getControlOptionsInstance } from '../controlOptionsInstance';
-import { ComponentWithProps, ReactComponent } from 'tsUtils';
+import { ComponentWithProps, ReactComponent } from '../tsUtils';
 
 const controlOptionsInstance = getControlOptionsInstance();
 

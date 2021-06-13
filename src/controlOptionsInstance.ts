@@ -1,30 +1,40 @@
+import { ComponentWithProps, ReactComponent } from './tsUtils';
 import { InputType } from './input';
 
-// infers the prop types to be used in presetProps
-type InferPropsType<PropT> = PropT extends React.ComponentType<infer V> ? V : never;
 type CustomizableType = 'input' | 'label';
 
 //constraints  CustomFormControls so that it only accepts keys of type InputType
-type KeyOfInputType<T extends Partial<Record<InputType, unknown>>> = keyof T extends InputType
-  ? T
-  : Record<InputType, T[keyof T]>;
+type KeyOfInputType<
+  T extends Partial<Record<InputType, unknown>>
+> = keyof T extends InputType ? T : Record<InputType, T[keyof T]>;
+
 //constraints  CustomFormControls Form Controls so that it only accepts keys of type "input" | "label"
-type KeyOfFormControl<T extends Partial<Record<CustomizableType, unknown>>> = keyof T extends CustomizableType
+type KeyOfFormControl<
+  T extends Partial<Record<CustomizableType, unknown>>
+> = keyof T extends CustomizableType
   ? T
   : Record<'input' | 'label', T[keyof T]>;
 
-type CustomFormControls<P extends Partial<Record<InputType, unknown>>> = KeyOfInputType<
+type CustomFormControls<
+  P extends Partial<Record<InputType, unknown>>
+> = KeyOfInputType<
   {
     [I in keyof P]: KeyOfFormControl<
-      { [IK in keyof P[I]]: { component: P[I][IK]; presetProps: InferPropsType<P[I][IK]> } }
+      {
+        [IK in keyof P[I]]: ComponentWithProps<P[I][IK]>;
+      }
     >;
   }
 >;
 
-export interface ControlOptions<P = {}> {
+export interface ControlOptions<
+  P = {},
+  LabelT extends ReactComponent = ReactComponent,
+  InputT extends ReactComponent = ReactComponent
+> {
   customFormControls?: CustomFormControls<P>;
-  label?: React.ReactElement;
-  input?: React.ReactElement;
+  label?: ComponentWithProps<LabelT>;
+  input?: ComponentWithProps<InputT>;
 }
 
 const controlOptionsInstance: ControlOptions<{}> = {

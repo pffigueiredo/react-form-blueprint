@@ -1,4 +1,4 @@
-import { ComponentWithProps } from 'tsUtils';
+import { ComponentWithProps } from './tsUtils';
 
 export const DEFAULT_INPUT: ComponentWithProps<'input'> = {
   component: 'input',

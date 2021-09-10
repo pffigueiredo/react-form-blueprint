@@ -14,16 +14,19 @@ const { getFormControls } = initFormOptions({
   },
 });
 
-function Label(name: { name: string }) {
+function Label(customLabel: { customLabel: string }) {
   return <h1></h1>;
 }
 
 interface Person1 {
   firstName: string;
   age: number;
+  dog: {
+    age: string;
+  };
 }
 
-const formControls = getFormControls<Person1>()({
+const formControls = getFormControls<Person1, 'firstName' | 'age'>()({
   firstName: {
     text: true,
   },
@@ -43,7 +46,7 @@ const LocalConfigExample = () => {
       </div>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <firstName.label>Firstname</firstName.label>
-        <firstName.input name="123" />
+        <firstName.input customLabel="123" />
       </div>
     </>
   );

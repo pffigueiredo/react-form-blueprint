@@ -25,14 +25,6 @@ export interface FormControl {
   name: string;
 }
 
-// get the inner keys under the getFormControls arg ('number' | 'text'...)
-type KeysOfInputType<T, K extends PropertyKey> = KeysUnder<
-  T,
-  K
-> extends InputType
-  ? KeysUnder<T, K>
-  : never;
-
 type FormControlsReturnVal<
   InputPropsT = ReactInputProps,
   LabelPropsT = ReactLabelProps
@@ -41,61 +33,85 @@ type FormControlsReturnVal<
   label: (props: LabelPropsT) => JSX.Element;
 };
 
-export type GetFormControlsReturn<
+type PropsByCustomControls<
+  ReturnKey extends string,
+  FormBluePrintT,
+  ControlArgsSchemaT,
+  ControlType extends 'label' | 'input'
+> = FormBluePrintT extends {
+  customFormControls?: RequireAtLeastOne<Record<InputType, any>>;
+}
+  ? FormBluePrintT extends { customFormControls?: infer CustomControlsT }
+    ? ControlArgsSchemaT extends Record<ReturnKey, any>
+      ? keyof ControlArgsSchemaT[ReturnKey] extends keyof CustomControlsT
+        ? CustomPropsByControl<
+            ControlType,
+            CustomControlsT[keyof ControlArgsSchemaT[ReturnKey]],
+            PropsByControl<ControlType, FormBluePrintT>
+          >
+        : PropsByControl<ControlType, FormBluePrintT>
+      : PropsByControl<ControlType, FormBluePrintT>
+    : PropsByControl<ControlType, FormBluePrintT>
+  : PropsByControl<ControlType, FormBluePrintT>;
+
+type CustomPropsByControl<
+  C extends 'label' | 'input',
+  CustomControlsByControl,
+  ReturnType
+> = C extends 'label'
+  ? CustomControlsByControl extends {
+      label: { component: infer TComponent };
+    }
+    ? InferPropsType<TComponent>
+    : ReturnType
+  : CustomControlsByControl extends {
+      input: { component: infer TComponent };
+    }
+  ? InferPropsType<TComponent>
+  : ReturnType;
+
+type PropsByControl<
+  C extends 'label' | 'input',
+  FormBluePrintT
+> = C extends 'label'
+  ? PropsByLabel<FormBluePrintT>
+  : PropsByInput<FormBluePrintT>;
+
+type PropsByInput<FormBluePrintT> = FormBluePrintT extends {
+  input?: { component: infer TComponent };
+}
+  ? InferPropsType<TComponent>
+  : ReactInputProps;
+
+type PropsByLabel<FormBluePrintT> = FormBluePrintT extends {
+  label?: { component: infer TComponent };
+}
+  ? InferPropsType<TComponent>
+  : ReactLabelProps;
+
+type GetFormControlsReturn<
   T,
   KeysToReturn extends string | null,
-  FormOptionsSchema,
-  ControlArgsSchema extends Record<string, unknown>
-> = Record<
-  DotNotationToCamelCase<
+  FormBluePrintT,
+  ControlArgsSchemaT extends Record<string, unknown>
+> = {
+  [ReturnKey in DotNotationToCamelCase<
     KeysToReturn extends string ? KeysToReturn : RecursiveKeyOf<T>
-  >,
-  FormControlsReturnVal<
-    FormOptionsSchema extends {
-      customFormControls?: RequireAtLeastOne<Record<InputType, any>>;
-    }
-      ? FormOptionsSchema extends { customFormControls?: infer R } // if 'text' | 'number' are within customFormControls
-        ? {
-            [K in keyof R]: KeysUnder<
-              ControlArgsSchema,
-              keyof ControlArgsSchema
-            > extends K
-              ? R[K]
-              : never;
-          }[keyof R] extends infer A
-          ? A extends { input: infer TComponent }
-            ? InferPropsType<TComponent>
-            : { cona: string }
-          : { name: string }
-        : ReactInputProps
-      : ReactInputProps
-  >
-
-  // FormControlsReturnVal<
-  //   FormOptionsSchema extends {
-  //     customFormControls?: RequireAtLeastOne<Record<InputType, any>>;
-  //   }
-  //     ? FormOptionsSchema extends { customFormControls?: infer R }
-  //       ? R extends RequireAtLeastOne<
-  //           Record<
-  //             KeysUnder<ControlArgsSchema, keyof ControlArgsSchema>,
-  //             infer A
-  //           >
-  //         >
-  //         ? A extends { input: infer TComponent }
-  //           ? InferPropsType<TComponent>
-  //           : { name: string }
-  //         : { name: string }
-  //       : ReactInputProps
-  //     : ReactInputProps
-  // >
->;
-
-//RequireAtLeastOne<Record<InputType, any>>;
-
-// InferPropsType<
-//           FormOptionsSchema['customFormControls']['text']['input']['component']
-//         >
+  >]: FormControlsReturnVal<
+    PropsByCustomControls<
+      ReturnKey,
+      FormBluePrintT,
+      ControlArgsSchemaT,
+      'input'
+    >,
+    PropsByCustomControls<
+      ReturnKey,
+      FormBluePrintT,
+      ControlArgsSchemaT,
+      'label'
+    >
+  >;
+};
 
 export function getFormControls<
   T extends object,

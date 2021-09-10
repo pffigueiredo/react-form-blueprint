@@ -17,5 +17,5 @@ export const { getFormControls } = initFormOptions({
     // },
   },
   label: { component: 'label', presetProps: { className: '123' } },
-  input: { component: 'input', presetProps: { placeholder: 'global defined' } },
+  // input: { component: 'input', presetProps: { placeholder: 'global defined' } },
 });

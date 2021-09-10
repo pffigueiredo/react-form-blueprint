@@ -15,7 +15,7 @@ const { getFormControls } = initFormOptions({
 });
 
 function Label(customLabel: { customLabel: string }) {
-  return <h1></h1>;
+  return <h1>Cona</h1>;
 }
 
 interface Person1 {
@@ -28,10 +28,10 @@ interface Person1 {
 
 const formControls = getFormControls<Person1, 'firstName' | 'age'>()({
   firstName: {
-    text: true,
+    type: 'text',
   },
   age: {
-    number: true,
+    type: 'number',
   },
 });
 

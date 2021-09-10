@@ -5,18 +5,18 @@ import { getFormControls } from '../react-formgen.config';
 const formControls = getFormControls<
   Person,
   'firstName' | 'lastName' | 'age' | 'dog.name'
->({
+>()({
   firstName: {
-    text: true,
+    type: 'text',
   },
   lastName: {
-    text: true,
+    type: 'text',
   },
   age: {
-    radio: true,
+    type: 'radio',
   },
   'dog.name': {
-    text: true,
+    type: 'text',
   },
 });
 

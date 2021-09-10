@@ -45,19 +45,6 @@ export type FormControlArg<
   } & ControlType
 >;
 
-// const a: FormControlArg<Person> = {
-//   name: {
-//     text: true,
-//   },
-//   age: {
-//     number: true,
-//   },
-// };
-// interface Person {
-//   age: number;
-//   name: string;
-// }
-
 export type ReactInputProps = React.DetailedHTMLProps<
   React.InputHTMLAttributes<HTMLInputElement>,
   HTMLInputElement

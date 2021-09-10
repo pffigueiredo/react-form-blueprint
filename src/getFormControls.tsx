@@ -11,15 +11,15 @@ import {
 import {
   DotNotationToCamelCase,
   InferPropsType,
-  KeysUnder,
-  OneOfType,
   RecursiveKeyOf,
   RequireAtLeastOne,
+  ValueOf,
 } from './tsUtils';
 import { extractControlTypeValue } from './type-guards/guards';
-import { ControlOptions } from './controlOptionsInstance';
 
-export type ControlType = OneOfType<Record<InputType, true>>;
+export type ControlType = {
+  type: InputType;
+};
 export interface FormControl {
   controlType: InputType;
   name: string;
@@ -43,10 +43,10 @@ type PropsByCustomControls<
 }
   ? FormBluePrintT extends { customFormControls?: infer CustomControlsT }
     ? ControlArgsSchemaT extends Record<ReturnKey, any>
-      ? keyof ControlArgsSchemaT[ReturnKey] extends keyof CustomControlsT
+      ? ValueOf<ControlArgsSchemaT[ReturnKey]> extends keyof CustomControlsT
         ? CustomPropsByControl<
             ControlType,
-            CustomControlsT[keyof ControlArgsSchemaT[ReturnKey]],
+            CustomControlsT[ValueOf<ControlArgsSchemaT[ReturnKey]>],
             PropsByControl<ControlType, FormBluePrintT>
           >
         : PropsByControl<ControlType, FormBluePrintT>
@@ -93,7 +93,7 @@ type GetFormControlsReturn<
   T,
   KeysToReturn extends string | null,
   FormBluePrintT,
-  ControlArgsSchemaT extends Record<string, unknown>
+  ControlArgsSchemaT
 > = {
   [ReturnKey in DotNotationToCamelCase<
     KeysToReturn extends string ? KeysToReturn : RecursiveKeyOf<T>
@@ -133,11 +133,11 @@ export function getFormControls<
         input: customFormControlsBuilder({
           componentType: 'input',
           name: controlName,
-          controlType: Object.keys(inputTypeObject)[0],
+          controlType: inputTypeObject.type,
         } as InputControl),
         label: customFormControlsBuilder({
           name: controlName,
-          controlType: Object.keys(inputTypeObject)[0],
+          controlType: inputTypeObject.type,
         } as LabelControl),
       },
     };

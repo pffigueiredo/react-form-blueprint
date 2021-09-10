@@ -1,20 +1,5 @@
-# react-formgen
-
-> Generate input controls from your models
-
-[![NPM](https://img.shields.io/npm/v/react-formgen.svg)](https://www.npmjs.com/package/react-formgen) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
-
-## Install
-
-```bash
-npm install --save react-formgen
-```
-
-## Usage
-
-```tsx
 import React from 'react';
-import { initFormOptions } from 'react-formgen';
+import { initFormOptions } from '../../../src';
 
 interface Person {
   firstName: string;
@@ -61,7 +46,7 @@ const formControls = getFormControls<
   },
 });
 
-const App = () => {
+const ReadmeExample = () => {
   const { firstName, age, dogColor } = formControls;
 
   return (
@@ -82,9 +67,4 @@ const App = () => {
   );
 };
 
-export default App;
-```
-
-## License
-
-MIT © [pffigueiredo](https://github.com/pffigueiredo)
+export default ReadmeExample;

@@ -9,7 +9,10 @@ const { getFormControls } = initFormOptions({
     presetProps: { placeholder: 'Local configured' },
   },
   customFormControls: {
-    text: { input: { component: Label }, label: { component: 'label' } },
+    text: {
+      input: { component: Label },
+      label: { component: 'label', presetProps: { htmlFor: '123' } },
+    },
     // number: { input: { component: Label }, label: { component: 'label' } },
   },
 });

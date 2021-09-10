@@ -32,7 +32,7 @@ const GlobalFileExample = () => {
       </div>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <firstName.label>Firstname</firstName.label>
-        <firstName.input htmlFor="123" />
+        <firstName.input />
       </div>
     </>
   );

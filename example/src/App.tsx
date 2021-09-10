@@ -1,6 +1,7 @@
 import React from 'react';
 import GlobalFileExample from './examples/GlobalFileExample';
 import LocalConfigExample from './examples/LocalConfigExample';
+import ReadmeExample from './examples/ReadmeExample';
 
 export interface Person {
   firstName: string;
@@ -24,6 +25,11 @@ const App = () => {
       <div>
         <h2>Global File </h2>
         <GlobalFileExample />
+      </div>
+
+      <div>
+        <h2>Readme Example </h2>
+        <ReadmeExample />
       </div>
     </>
   );

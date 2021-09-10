@@ -19,11 +19,26 @@ export type DotNotationToCamelCase<S extends string> = S extends `${infer T}.${i
   : S;
 
 
- //********* REACT types 
+// One of the objects
+type OneOnly<Obj extends object, Key extends keyof Obj> = { [key in Exclude<keyof Obj, Key>]+?: undefined } & Pick<Obj, Key>;
+type OneOfByKey<Obj extends object> = { [key in keyof Obj]: OneOnly<Obj, key> };
+export type OneOfType<Obj extends object> = ValueOf<OneOfByKey<Obj>>;
+
+// Gets the inner keys of an object by it's parent key
+export type KeysUnder<T, K extends PropertyKey> =
+  T extends object ? {
+    [P in keyof T]-?: (P extends K ? keyof T[P] : never) | KeysUnder<T[P], K>
+  }[keyof T] : never;
+
+
+// At least one of the keys is required
+export type RequireAtLeastOne<T> = { [K in keyof T]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<keyof T, K>>>; }[keyof T]
+
+ // ************************** REACT types  **************************
 export type ReactComponent = keyof JSX.IntrinsicElements | JSXElementConstructor<any>;
 
 // infers the prop types to be used in presetProps
-type InferPropsType<T> = T extends ReactComponent ? React.ComponentProps<T> : never;
+export type InferPropsType<T> = T extends ReactComponent ? React.ComponentProps<T> : never;
 
 export type ComponentWithProps<T extends ReactComponent> = {
     component: T;

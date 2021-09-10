@@ -5,21 +5,20 @@ import { getFormControls } from '../react-formgen.config';
 const formControls = getFormControls<
   Person,
   'firstName' | 'lastName' | 'age' | 'dog.name'
->([
-  {
-    type: 'text',
-    name: 'firstName',
+>({
+  firstName: {
+    text: true,
   },
-  {
-    type: 'text',
-    name: 'lastName',
+  lastName: {
+    text: true,
   },
-  { type: 'number', name: 'age' },
-  {
-    type: 'text',
-    name: 'dog.name',
+  age: {
+    radio: true,
   },
-]);
+  'dog.name': {
+    text: true,
+  },
+});
 
 const GlobalFileExample = () => {
   const inputRef = useRef(null);
@@ -33,7 +32,7 @@ const GlobalFileExample = () => {
       </div>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <firstName.label>Firstname</firstName.label>
-        <firstName.input />
+        <firstName.input htmlFor="123" />
       </div>
     </>
   );

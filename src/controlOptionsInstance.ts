@@ -21,14 +21,16 @@ type CustomFormControls<
   {
     [I in keyof P]: KeyOfFormControl<
       {
-        [IK in keyof P[I]]: ComponentWithProps<P[I][IK]>;
+        [IK in keyof P[I]]: P[I][IK] extends ReactComponent
+          ? ComponentWithProps<P[I][IK]>
+          : never;
       }
     >;
   }
 >;
 
 export interface ControlOptions<
-  P = {},
+  P,
   LabelT extends ReactComponent = ReactComponent,
   InputT extends ReactComponent = ReactComponent
 > {
@@ -43,11 +45,8 @@ const controlOptionsInstance: ControlOptions<{}> = {
   input: undefined,
 };
 
-export const getControlOptionsInstance = (): ControlOptions =>
-  controlOptionsInstance;
-export const setControlOptionsInstance = (
-  controlOptions: ControlOptions
-): void => {
+export const getControlOptionsInstance = () => controlOptionsInstance;
+export const setControlOptionsInstance = (controlOptions): void => {
   controlOptionsInstance.customFormControls = controlOptions.customFormControls;
   controlOptionsInstance.label = controlOptions.label;
   controlOptionsInstance.input = controlOptions.input;

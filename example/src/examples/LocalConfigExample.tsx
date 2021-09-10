@@ -8,15 +8,29 @@ const { getFormControls } = initFormOptions({
     component: 'input',
     presetProps: { placeholder: 'Local configured' },
   },
+  customFormControls: {
+    text: { input: { component: Label }, label: { component: 'label' } },
+    // number: { input: { component: Label }, label: { component: 'label' } },
+  },
 });
 
-const formControls = getFormControls<Person, 'firstName' | 'age'>([
-  {
-    type: 'text',
-    name: 'firstName',
+function Label(name: { name: string }) {
+  return <h1></h1>;
+}
+
+interface Person1 {
+  firstName: string;
+  age: number;
+}
+
+const formControls = getFormControls<Person1>()({
+  firstName: {
+    text: true,
   },
-  { type: 'number', name: 'age' },
-]);
+  age: {
+    number: true,
+  },
+});
 
 const LocalConfigExample = () => {
   const { firstName, age } = formControls;
@@ -29,7 +43,7 @@ const LocalConfigExample = () => {
       </div>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <firstName.label>Firstname</firstName.label>
-        <firstName.input />
+        <firstName.input name="123" />
       </div>
     </>
   );

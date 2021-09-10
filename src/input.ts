@@ -1,5 +1,6 @@
 import React from 'react';
-import { FormControl } from './getFormControls';
+import { ControlType, FormControl } from './getFormControls';
+import { RecursiveKeyOf } from './tsUtils';
 
 const availableInputTypes = [
   'button',
@@ -30,9 +31,32 @@ export type InputType = typeof availableInputTypes[number];
 const availableFormControls = ['input', 'select', 'textarea'] as const;
 type FormControlType = typeof availableFormControls[number];
 
-export interface InputControl<T, Keys = null> extends FormControl<T, Keys> {
+export interface InputControl extends FormControl {
   componentType?: FormControlType;
 }
+
+export type FormControlArg<
+  T,
+  Keys extends RecursiveKeyOf<T> | null = null
+> = Record<
+  Keys extends null ? RecursiveKeyOf<T> : Keys,
+  {
+    componentType?: FormControlType;
+  } & ControlType
+>;
+
+// const a: FormControlArg<Person> = {
+//   name: {
+//     text: true,
+//   },
+//   age: {
+//     number: true,
+//   },
+// };
+// interface Person {
+//   age: number;
+//   name: string;
+// }
 
 export type ReactInputProps = React.DetailedHTMLProps<
   React.InputHTMLAttributes<HTMLInputElement>,

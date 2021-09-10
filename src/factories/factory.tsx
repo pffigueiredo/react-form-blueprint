@@ -9,13 +9,13 @@ import { ComponentWithProps, ReactComponent } from '../tsUtils';
 
 const controlOptionsInstance = getControlOptionsInstance();
 
-function buildUsableControl<T, C extends ReactComponent>(
+function buildUsableControl<C extends ReactComponent>(
   componentWithProps: ComponentWithProps<C>,
-  formControl: FormControl<T>
+  formControl: FormControl
 ) {
-  const formControlVal = extractFormControlValue<T>(formControl);
+  const formControlVal = extractFormControlValue(formControl);
 
-  if (isInput<T>(formControlVal)) {
+  if (isInput(formControlVal)) {
     return forwardRef<
       ComponentWithProps<C>['component'],
       ComponentWithProps<C>['presetProps']
@@ -24,7 +24,7 @@ function buildUsableControl<T, C extends ReactComponent>(
         ...componentWithProps.presetProps,
         ...props,
 
-        type: formControlVal.type,
+        type: formControlVal.controlType,
         name: formControlVal.name,
         id: formControlVal.name,
         ref: forwardRef,
@@ -47,12 +47,12 @@ function buildUsableControl<T, C extends ReactComponent>(
   );
 }
 
-export function customFormControlsBuilder<T>(
-  formControl: FormControl<T>
+export function customFormControlsBuilder(
+  formControl: FormControl
 ): ReturnType<typeof buildUsableControl> {
   const customControlByType =
-    controlOptionsInstance?.customFormControls?.[formControl.type];
-  const formControlType = isInput<T>(formControl) ? 'input' : 'label';
+    controlOptionsInstance?.customFormControls?.[formControl.controlType];
+  const formControlType = isInput(formControl) ? 'input' : 'label';
 
   // by input type (text/number...)
   if (customControlByType?.[formControlType]) {
@@ -62,7 +62,7 @@ export function customFormControlsBuilder<T>(
     );
   }
 
-  // globally defined in options (input/label)
+  // by all input and labels
   if (controlOptionsInstance[formControlType]) {
     return buildUsableControl(
       controlOptionsInstance[formControlType]!,
@@ -72,7 +72,7 @@ export function customFormControlsBuilder<T>(
 
   // if not defined (default)
   return buildUsableControl(
-    isInput<T>(formControl) ? DEFAULT_INPUT : DEFAULT_LABEL,
+    isInput(formControl) ? DEFAULT_INPUT : DEFAULT_LABEL,
     formControl
   );
 }

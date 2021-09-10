@@ -8,6 +8,14 @@ export const { getFormControls } = initFormOptions({
   //     label: <label className="textLabel" />,
   //   },
   // },
-  label: { component: 'label' },
+
+  customFormControls: {
+    text: { input: { component: 'label' }, label: { component: 'label' } },
+    // number: {
+    //   input: { component: 'input' },
+    //   label: { component: 'label' },
+    // },
+  },
+  label: { component: 'label', presetProps: { className: '123' } },
   input: { component: 'input', presetProps: { placeholder: 'global defined' } },
 });

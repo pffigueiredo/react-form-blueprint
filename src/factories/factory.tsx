@@ -1,26 +1,30 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react';
 import { forwardRef } from 'react';
-import { ReactInputProps } from '../input';
 import { DEFAULT_INPUT, DEFAULT_LABEL } from '../constants';
 import { FormControl } from '../getFormControls';
-import { ReactLabelProps } from '../label';
 import { extractFormControlValue, isInput } from '../type-guards/guards';
 import { getControlOptionsInstance } from '../controlOptionsInstance';
+import { ComponentWithProps, ReactComponent } from '../tsUtils';
 
 const controlOptionsInstance = getControlOptionsInstance();
 
-function buildUsableControl<T>(
-  component: React.ReactElement,
-  formControl: FormControl<T>
+function buildUsableControl<C extends ReactComponent>(
+  componentWithProps: ComponentWithProps<C>,
+  formControl: FormControl
 ) {
-  const formControlVal = extractFormControlValue<T>(formControl);
+  const formControlVal = extractFormControlValue(formControl);
 
-  if (isInput<T>(formControlVal)) {
-    return forwardRef<HTMLInputElement, ReactInputProps>((props, forwardRef) =>
-      React.cloneElement(component, {
+  if (isInput(formControlVal)) {
+    return forwardRef<
+      ComponentWithProps<C>['component'],
+      ComponentWithProps<C>['presetProps']
+    >((props, forwardRef) =>
+      React.createElement(componentWithProps.component, {
+        ...componentWithProps.presetProps,
         ...props,
-        type: formControlVal.type,
+
+        type: formControlVal.controlType,
         name: formControlVal.name,
         id: formControlVal.name,
         ref: forwardRef,
@@ -29,21 +33,26 @@ function buildUsableControl<T>(
   }
 
   // is a label
-  return forwardRef<HTMLLabelElement, ReactLabelProps>((props, forwardRef) =>
-    React.cloneElement(component, {
+  return forwardRef<
+    ComponentWithProps<C>['component'],
+    ComponentWithProps<C>['presetProps']
+  >((props, forwardRef) =>
+    React.createElement(componentWithProps.component, {
+      ...componentWithProps.presetProps,
       ...props,
+
       htmlFor: formControlVal.name,
       ref: forwardRef,
     })
   );
 }
 
-export function customFormControlsBuilder<T>(
-  formControl: FormControl<T>
+export function customFormControlsBuilder(
+  formControl: FormControl
 ): ReturnType<typeof buildUsableControl> {
   const customControlByType =
-    controlOptionsInstance?.customFormControls?.[formControl.type];
-  const formControlType = isInput<T>(formControl) ? 'input' : 'label';
+    controlOptionsInstance?.customFormControls?.[formControl.controlType];
+  const formControlType = isInput(formControl) ? 'input' : 'label';
 
   // by input type (text/number...)
   if (customControlByType?.[formControlType]) {
@@ -53,7 +62,7 @@ export function customFormControlsBuilder<T>(
     );
   }
 
-  // globally defined in options (input/label)
+  // by all input and labels
   if (controlOptionsInstance[formControlType]) {
     return buildUsableControl(
       controlOptionsInstance[formControlType]!,
@@ -63,7 +72,7 @@ export function customFormControlsBuilder<T>(
 
   // if not defined (default)
   return buildUsableControl(
-    isInput<T>(formControl) ? DEFAULT_INPUT : DEFAULT_LABEL,
+    isInput(formControl) ? DEFAULT_INPUT : DEFAULT_LABEL,
     formControl
   );
 }

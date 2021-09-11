@@ -5,21 +5,20 @@ import { getFormControls } from '../react-formgen.config';
 const formControls = getFormControls<
   Person,
   'firstName' | 'lastName' | 'age' | 'dog.name'
->([
-  {
+>()({
+  firstName: {
     type: 'text',
-    name: 'firstName',
   },
-  {
+  lastName: {
     type: 'text',
-    name: 'lastName',
   },
-  { type: 'number', name: 'age' },
-  {
+  age: {
+    type: 'radio',
+  },
+  'dog.name': {
     type: 'text',
-    name: 'dog.name',
   },
-]);
+});
 
 const GlobalFileExample = () => {
   const inputRef = useRef(null);

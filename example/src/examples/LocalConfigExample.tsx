@@ -1,19 +1,42 @@
 import React from 'react';
-import { initFormOptions } from 'react-formgen';
+import { initFormOptions } from '../../../src';
 import { Person } from '../App';
 
 const { getFormControls } = initFormOptions({
-  label: <label />,
-  input: <input placeholder="local config label" />,
+  label: { component: 'label' },
+  input: {
+    component: 'input',
+    presetProps: { placeholder: 'Local configured' },
+  },
+  customFormControls: {
+    text: {
+      input: { component: Label },
+      label: { component: 'label', presetProps: { htmlFor: '123' } },
+    },
+    // number: { input: { component: Label }, label: { component: 'label' } },
+  },
 });
 
-const formControls = getFormControls<Person, 'firstName' | 'age'>([
-  {
+function Label(customLabel: { customLabel: string }) {
+  return <h1>Cona</h1>;
+}
+
+interface Person1 {
+  firstName: string;
+  age: number;
+  dog: {
+    age: string;
+  };
+}
+
+const formControls = getFormControls<Person1, 'firstName' | 'age'>()({
+  firstName: {
     type: 'text',
-    name: 'firstName',
   },
-  { type: 'number', name: 'age' },
-]);
+  age: {
+    type: 'number',
+  },
+});
 
 const LocalConfigExample = () => {
   const { firstName, age } = formControls;
@@ -26,7 +49,7 @@ const LocalConfigExample = () => {
       </div>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <firstName.label>Firstname</firstName.label>
-        <firstName.input />
+        <firstName.input customLabel="123" />
       </div>
     </>
   );

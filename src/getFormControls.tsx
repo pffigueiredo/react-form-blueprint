@@ -2,12 +2,7 @@
 import camelCase from 'camelcase';
 import { customFormControlsBuilder } from './factories/factory';
 import { LabelControl, ReactLabelProps } from './label';
-import {
-  FormControlArg,
-  InputControl,
-  InputType,
-  ReactInputProps,
-} from './input';
+import { InputControl, InputType, ReactInputProps } from './input';
 import {
   DotNotationToCamelCase,
   InferPropsType,
@@ -117,7 +112,7 @@ export function getFormControls<
   T extends object,
   Keys extends RecursiveKeyOf<T> | null,
   FormOptionsSchema,
-  ControlArgsSchema extends FormControlArg<T, Keys>
+  ControlArgsSchema
 >(
   inputControls: ControlArgsSchema
 ): GetFormControlsReturn<T, Keys, FormOptionsSchema, ControlArgsSchema> {

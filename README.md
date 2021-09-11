@@ -1,20 +1,20 @@
-# react-formgen
+# react-form-blueprint
 
 > Generate input controls from your models
 
-[![NPM](https://img.shields.io/npm/v/react-formgen.svg)](https://www.npmjs.com/package/react-formgen) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/react-form-blueprint.svg)](https://www.npmjs.com/package/react-form-blueprint) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Install
 
 ```bash
-npm install --save react-formgen
+npm install --save react-form-blueprint
 ```
 
 ## Usage
 
 ```tsx
 import React from 'react';
-import { getFormControls, initFormOptions } from 'react-formgen';
+import { getFormControls, initFormOptions } from 'react-form-blueprint';
 
 interface Person {
   firstName: string;
@@ -26,23 +26,28 @@ interface Person {
 
 initFormOptions({
   customFormControls: {
-    number: { input: <input className="number" />, label: <label className="textLabel" /> },
+    number: {
+      input: <input className="number" />,
+      label: <label className="textLabel" />,
+    },
   },
   label: <label className="label" />,
   input: <input className="input" />,
 });
 
-const formControls = getFormControls<Person, 'firstName' | 'age' | 'dog.color'>([
-  {
-    type: 'text',
-    name: 'firstName',
-  },
-  { type: 'number', name: 'age' },
-  {
-    type: 'text',
-    name: 'dog.color',
-  },
-]);
+const formControls = getFormControls<Person, 'firstName' | 'age' | 'dog.color'>(
+  [
+    {
+      type: 'text',
+      name: 'firstName',
+    },
+    { type: 'number', name: 'age' },
+    {
+      type: 'text',
+      name: 'dog.color',
+    },
+  ]
+);
 
 const App = () => {
   if (!formControls) return null;

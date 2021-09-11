@@ -6,6 +6,15 @@ import { getFormControls } from './getFormControls';
 import { FormControlArg } from './input';
 import { ReactComponent, RecursiveKeyOf } from './tsUtils';
 
+
+type InputControlsArg<InferredArg, ReturnKeys> = {
+  [Key in keyof InferredArg]: Exclude<Key, keyof ReturnKeys> extends never
+    ? InferredArg[Key]
+    // eslint-disable-next-line prettier/prettier
+    : `${Key extends string ? Key : 'This key'} isn't included in the available keys`;
+};
+
+
 export function initFormOptions<
   P,
   LabelT extends ReactComponent = 'label',
@@ -19,13 +28,13 @@ export function initFormOptions<
       Keys extends RecursiveKeyOf<T> | null = null
     >() {
       return function<InputControlsT extends FormControlArg<T, Keys>>(
-        inputControls: InputControlsT
+        inputControls: InputControlsArg<InputControlsT, FormControlArg<T, Keys>>
       ) {
         return getFormControls<
           T,
           Keys,
           ControlOptions<P, LabelT, InputT>,
-          InputControlsT
+          InputControlsArg<InputControlsT, FormControlArg<T, Keys>>
         >(inputControls);
       };
     },

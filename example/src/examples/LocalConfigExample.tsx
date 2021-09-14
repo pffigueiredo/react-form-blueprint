@@ -1,6 +1,5 @@
 import React from 'react';
-import { initFormOptions } from '../../../src';
-import { Person } from '../App';
+import { initFormOptions } from '../../../dist';
 
 const { getFormControls } = initFormOptions({
   label: { component: 'label' },

@@ -34,8 +34,8 @@ export function initFormOptions<
           T,
           Keys,
           ControlOptions<P, LabelT, InputT>,
-          InputControlsArg<InputControlsT, FormControlArg<T, Keys>>
-        >(inputControls);
+          InputControlsT
+        >(inputControls as InputControlsT);
       };
     },
   };

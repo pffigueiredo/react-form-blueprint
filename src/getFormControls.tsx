@@ -91,7 +91,7 @@ type GetFormControlsReturn<
   ControlArgsSchemaT
 > = {
   [ReturnKey in DotNotationToCamelCase<
-    KeysToReturn extends string ? KeysToReturn : RecursiveKeyOf<T>
+    KeysToReturn extends null ? RecursiveKeyOf<T> : KeysToReturn
   >]: FormControlsReturnVal<
     PropsByCustomControls<
       ReturnKey,
